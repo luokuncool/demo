@@ -31,5 +31,7 @@ $app->command('articles', function (OutputInterface $output, ArticleRepository $
 // For this command we provide an invokable class instead of a closure
 // That allows to use dependency injection in the constructor
 $app->command('article [id]', 'SuperBlog\Command\ArticleDetailCommand');
+$app->command('create_schema', 'SuperBlog\Command\CreateSchemaCommand');
+$app->command('create_article', 'SuperBlog\Command\CreateArticleCommand');
 
 $app->run();
