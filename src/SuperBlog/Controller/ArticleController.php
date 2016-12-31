@@ -5,9 +5,6 @@ namespace SuperBlog\Controller;
 use DI\Annotation\Inject;
 use InvalidArgumentException;
 use SuperBlog\Model\ArticleRepository;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Twig_Environment;
 
 class ArticleController extends Controller
 {
