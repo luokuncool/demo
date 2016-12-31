@@ -20,6 +20,12 @@ class ArticleController extends Controller
         $this->jsonResponse(array('lastInsId' => $this->db->lastInsertId()));
     }
 
+    public function update($id)
+    {
+        $affect = $this->db->update('article', $_POST, array('id' => $id));
+        $this->jsonResponse(array('affect' => $affect));
+    }
+
     public function all()
     {
         $this->jsonResponse($this->repository->getArticles());

@@ -11,6 +11,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/article', ['SuperBlog\Controller\ArticleController', 'all']);
     $r->addRoute('GET', '/article/get/{id}', ['SuperBlog\Controller\ArticleController', 'get']);
     $r->addRoute('POST', '/article/post', ['SuperBlog\Controller\ArticleController', 'post']);
+    $r->addRoute('POST', '/article/update/{id}', ['SuperBlog\Controller\ArticleController', 'update']);
     $r->addRoute('DELETE', '/article/delete/{id}', ['SuperBlog\Controller\ArticleController', 'delete']);
 });
 

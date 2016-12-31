@@ -20,7 +20,7 @@ class DatabaseArticleRepository implements ArticleRepository
      */
     public function getArticles()
     {
-        return $this->db->createQueryBuilder()->select('*')->from('article')->execute()->fetchAll();
+        return $this->db->createQueryBuilder()->select('*')->from('article')->orderBy('id', 'desc')->execute()->fetchAll();
     }
 
     /**
