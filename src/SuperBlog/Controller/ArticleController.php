@@ -2,32 +2,54 @@
 
 namespace SuperBlog\Controller;
 
+use DI\Annotation\Inject;
+use InvalidArgumentException;
 use SuperBlog\Model\ArticleRepository;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig_Environment;
 
-class ArticleController
+class ArticleController extends Controller
 {
     /**
+     * @Inject()
      * @var ArticleRepository
      */
     private $repository;
 
-    /**
-     * @var Twig_Environment
-     */
-    private $twig;
-
-    public function __construct(ArticleRepository $repository, Twig_Environment $twig)
+    public function post()
     {
-        $this->repository = $repository;
-        $this->twig = $twig;
+        $this->db->insert('article', $_POST);
+        $this->jsonResponse(array('lastInsId' => $this->db->lastInsertId()));
+    }
+
+    public function all()
+    {
+        $this->jsonResponse($this->repository->getArticles());
+    }
+
+    public function delete($id)
+    {
+        try {
+            $this->db->delete('article', array('id' => $id));
+            $this->jsonResponse(array('msg' => '删除成功'));
+            return;
+        } catch (InvalidArgumentException $e) {
+            $this->jsonResponse(array('msg' => $e->getMessage()));
+        }
+    }
+
+    public function get($id)
+    {
+        $article = $this->repository->getArticle($id, true);
+        $this->jsonResponse($article);
     }
 
     public function show($id)
     {
         $article = $this->repository->getArticle($id);
 
-        echo $this->twig->render('article.twig', [
+        echo $this->render('article.twig', [
             'article' => $article,
         ]);
     }

@@ -9,11 +9,12 @@
     },
     "require": {
         "php": ">=5.6",
-        "mnapoli/php-di": "5.0.x-dev@dev",
+        "php-di/php-di": "^5.4",
         "nikic/fast-route": "~0.5.0",
         "twig/twig": "^1.18",
         "mnapoli/silly": "^1.1",
         "doctrine/dbal": "^2.5",
+        "doctrine/migrations": "^1.5",
         "doctrine/annotations": "^1.3"
     }
 }

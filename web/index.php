@@ -7,6 +7,11 @@ $container = require __DIR__ . '/../app/bootstrap.php';
 $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', 'SuperBlog\Controller\HomeController');
     $r->addRoute('GET', '/article/{id}', ['SuperBlog\Controller\ArticleController', 'show']);
+
+    $r->addRoute('GET', '/article', ['SuperBlog\Controller\ArticleController', 'all']);
+    $r->addRoute('GET', '/article/get/{id}', ['SuperBlog\Controller\ArticleController', 'get']);
+    $r->addRoute('POST', '/article/post', ['SuperBlog\Controller\ArticleController', 'post']);
+    $r->addRoute('DELETE', '/article/delete/{id}', ['SuperBlog\Controller\ArticleController', 'delete']);
 });
 
 $route = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

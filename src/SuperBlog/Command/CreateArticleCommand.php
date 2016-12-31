@@ -3,9 +3,11 @@ namespace SuperBlog\Command;
 
 use DI\Annotation\Inject;
 use Doctrine\DBAL\Connection;
+use Silly\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateArticleCommand
+class CreateArticleCommand extends Command
 {
     /**
      * @Inject()
@@ -13,9 +15,16 @@ class CreateArticleCommand
      */
     private $db;
 
-    public function __invoke(OutputInterface $output)
+    protected function configure()
     {
-        $this->db->insert('article', array('title' => 'title', 'content' => 'content'));
+        $this
+            ->setName('app:create_article')
+            ->setDescription('create some default articles');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->db->insert('article', ['title' => 'title', 'content' => 'content', 'tags' => 'php']);
         $output->writeln("<info>最后插入id {$this->db->lastInsertId()}</info>");
     }
 

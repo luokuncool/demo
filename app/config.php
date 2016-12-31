@@ -1,8 +1,10 @@
 <?php
 
 use function DI\object;
+use Doctrine\DBAL\Connection;
 use SuperBlog\Model\ArticleRepository;
 use SuperBlog\Persistence\InMemoryArticleRepository;
+use SuperBlog\Provider\CustomSchemaProvider;
 
 return [
     // Bind an interface to an implementation
@@ -14,15 +16,13 @@ return [
         return new Twig_Environment($loader);
     },
 
-    'db.url' => 'sqlite:///'.__DIR__.'/db.sqlite',
+    'db.url' => 'sqlite:///' . __DIR__ . '/db.sqlite3',
 
-    \Doctrine\DBAL\Connection::class => function (\DI\Container $container) {
-        $config = new \Doctrine\DBAL\Configuration();
+    //'db.url' => 'mysql://root:root@localhost/di-demo?charset=utf8',
 
-        $connectionParams = array(
-            'url' => $container->get('db.url'),
-        );
-
+    Connection::class => function (\DI\Container $container) {
+        $config           = new \Doctrine\DBAL\Configuration();
+        $connectionParams = ['url' => $container->get('db.url')];
         return \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
     }
 ];

@@ -20,22 +20,16 @@ class DatabaseArticleRepository implements ArticleRepository
      */
     public function getArticles()
     {
-        $rows = $this->db->createQueryBuilder()->select('*')->from('article')->execute()->fetchAll();
-        $articles = array();
-        foreach ($rows as $row) {
-            $articles[] = new Article($row['id'], $row['title'], $row['content']);
-        }
-        return $articles;
+        return $this->db->createQueryBuilder()->select('*')->from('article')->execute()->fetchAll();
     }
 
     /**
      * @param string $id
      *
-     * @return Article
+     * @return array
      */
     public function getArticle($id)
     {
-        $row = $this->db->createQueryBuilder()->select('*')->from('article')->where('id=?')->setParameters(array($id))->execute()->fetch();
-        return new Article($row['id'], $row['title'], $row['content']);
+        return $this->db->createQueryBuilder()->select('*')->from('article')->where('id=?')->setParameters(array($id))->execute()->fetch();
     }
 }

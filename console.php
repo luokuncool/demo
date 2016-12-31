@@ -1,8 +1,10 @@
+#!/usr/bin/env php
 <?php
 
 use SuperBlog\Model\ArticleRepository;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/** @var \DI\Container $container */
 $container = require __DIR__ . '/app/bootstrap.php';
 
 $app = new Silly\Application();
@@ -30,8 +32,22 @@ $app->command('articles', function (OutputInterface $output, ArticleRepository $
 // Show an article
 // For this command we provide an invokable class instead of a closure
 // That allows to use dependency injection in the constructor
-$app->command('article [id]', 'SuperBlog\Command\ArticleDetailCommand');
-$app->command('create_schema', 'SuperBlog\Command\CreateSchemaCommand');
-$app->command('create_article', 'SuperBlog\Command\CreateArticleCommand');
+$app->add($container->get(SuperBlog\Command\CreateArticleCommand::class));
+
+$app->setHelperSet(
+    new \Symfony\Component\Console\Helper\HelperSet([
+        'db'     => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($container->get(\Doctrine\DBAL\Connection::class)),
+        'dialog' => new \Symfony\Component\Console\Helper\QuestionHelper(),
+    ])
+);
+
+$app->addCommands([
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(new \SuperBlog\Provider\CustomSchemaProvider()),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand()
+]);
 
 $app->run();
