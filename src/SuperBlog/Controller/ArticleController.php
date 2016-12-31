@@ -38,7 +38,7 @@ class ArticleController extends Controller
 
     public function get($id)
     {
-        $article = $this->repository->getArticle($id, true);
+        $article = $this->repository->getArticle($id);
         $this->jsonResponse($article);
     }
 
