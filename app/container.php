@@ -37,6 +37,10 @@ return [
         $sqlLogger = new DebugStack();
         $config->setSQLLogger($sqlLogger);
 
+        //$cache = new \Doctrine\Common\Cache\PredisCache($container->get('predis'));
+        $cache = new \Doctrine\Common\Cache\FilesystemCache(__DIR__.'/../var/cache/');
+        $config->setResultCacheImpl($cache);
+
         return \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
     }
 ];

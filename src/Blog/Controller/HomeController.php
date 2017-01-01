@@ -4,6 +4,7 @@ namespace Blog\Controller;
 
 use DI\Annotation\Inject;
 use Blog\Model\ArticleRepository;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 
 class HomeController extends Controller
 {
@@ -20,6 +21,9 @@ class HomeController extends Controller
      */
     public function __invoke()
     {
+        $stmt = $this->db->executeQuery('select * from article limit 1', array(), array(), new QueryCacheProfile(3, 'query'));
+        $rows = $stmt->fetchAll();
+        $stmt->closeCursor();
         echo $this->render('home.twig', [
             'articles' => $this->repository->getArticles(),
         ]);
