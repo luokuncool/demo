@@ -1,4 +1,4 @@
 name: Doctrine Sandbox Migrations
-migrations_namespace: SuperBlog\Migrations
+migrations_namespace: Blog\Migrations
 table_name: migration_versions
-migrations_directory: src/SuperBlog/Migrations
+migrations_directory: src/Blog/Migrations

@@ -49,14 +49,7 @@ class ArticleController extends Controller
 
     public function get($id)
     {
-        $key = "article$id";
-
-        if ($article = $this->predis->get($key)) {
-            $this->json(unserialize($article));
-            return;
-        }
         $article = $this->repository->getArticle($id);
-        $this->predis->set($key, serialize($article));
         $this->json($article);
     }
 

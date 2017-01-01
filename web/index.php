@@ -33,5 +33,6 @@ switch ($route[0]) {
         // We could do $container->get($controller) but $container->call()
         // does that automatically
         $container->call($controller, $parameters);
+        dump($container->get('db.sql.logger')->queries);
         break;
 }
