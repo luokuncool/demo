@@ -10,10 +10,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $containerBuilder = new ContainerBuilder;
 $containerBuilder->useAnnotations(true);
-$containerBuilder->addDefinitions(__DIR__ . '/config.php');
+$containerBuilder->addDefinitions(__DIR__ . '/container.php');
 $container = $containerBuilder->build();
 
 $handler = ErrorHandler::register();
-$handler->setDefaultLogger($container->get('app.logger'));
+$handler->setDefaultLogger($container->get('logger'));
 
 return $container;

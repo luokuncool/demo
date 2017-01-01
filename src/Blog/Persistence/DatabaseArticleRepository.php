@@ -1,16 +1,16 @@
 <?php
-namespace SuperBlog\Persistence;
+namespace Blog\Persistence;
 
 use DI\Annotation\Inject;
 use Doctrine\DBAL\Connection;
-use SuperBlog\Model\Article;
-use SuperBlog\Model\ArticleRepository;
+use Blog\Model\Article;
+use Blog\Model\ArticleRepository;
 
 class DatabaseArticleRepository implements ArticleRepository
 {
 
     /**
-     * @Inject()
+     * @Inject("db")
      * @var Connection
      */
     private $db;

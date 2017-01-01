@@ -1,5 +1,5 @@
 <?php
-namespace SuperBlog\Command;
+namespace Blog\Command;
 
 use DI\Annotation\Inject;
 use Doctrine\DBAL\Connection;
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateArticleCommand extends Command
 {
     /**
-     * @Inject()
+     * @Inject("db")
      * @var Connection
      */
     private $db;

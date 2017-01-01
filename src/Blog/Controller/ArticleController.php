@@ -1,51 +1,49 @@
 <?php
 
-namespace SuperBlog\Controller;
+namespace Blog\Controller;
 
 use DI\Annotation\Inject;
 use InvalidArgumentException;
-use Predis\Client;
-use SuperBlog\Model\ArticleRepository;
 
 class ArticleController extends Controller
 {
     /**
      * @Inject()
-     * @var ArticleRepository
+     * @var \Blog\Model\ArticleRepository
      */
     private $repository;
 
     /**
-     * @Inject()
-     * @var Client
+     * @Inject("predis")
+     * @var \Predis\Client
      */
     private $predis;
 
     public function post()
     {
         $this->db->insert('article', $_POST);
-        $this->jsonResponse(array('lastInsId' => $this->db->lastInsertId()));
+        $this->json(array('lastInsId' => $this->db->lastInsertId()));
     }
 
     public function update($id)
     {
         $affect = $this->db->update('article', array_merge($_POST, array('update_at' => (new \DateTime())->format('Y-m-d H:i:s'))), array('id' => $id));
-        $this->jsonResponse(array('affect' => $affect));
+        $this->json(array('affect' => $affect));
     }
 
     public function all()
     {
-        $this->jsonResponse($this->repository->getArticles());
+        $this->json($this->repository->getArticles());
     }
 
     public function delete($id)
     {
         try {
             $this->db->delete('article', array('id' => $id));
-            $this->jsonResponse(array('msg' => '删除成功'));
+            $this->json(array('msg' => '删除成功'));
             return;
         } catch (InvalidArgumentException $e) {
-            $this->jsonResponse(array('msg' => $e->getMessage()));
+            $this->json(array('msg' => $e->getMessage()));
         }
     }
 
@@ -54,12 +52,12 @@ class ArticleController extends Controller
         $key = "article$id";
 
         if ($article = $this->predis->get($key)) {
-            $this->jsonResponse(unserialize($article));
+            $this->json(unserialize($article));
             return;
         }
         $article = $this->repository->getArticle($id);
         $this->predis->set($key, serialize($article));
-        $this->jsonResponse($article);
+        $this->json($article);
     }
 
     public function show($id)

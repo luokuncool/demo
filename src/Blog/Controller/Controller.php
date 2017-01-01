@@ -1,5 +1,5 @@
 <?php
-namespace SuperBlog\Controller;
+namespace Blog\Controller;
 
 use DI\Annotation\Inject;
 use Doctrine\DBAL\Connection;
@@ -10,13 +10,13 @@ use Twig_Error_Syntax;
 abstract class Controller
 {
     /**
-     * @Inject()
+     * @Inject("twig")
      * @var \Twig_Environment
      */
     protected $twig;
 
     /**
-     * @Inject()
+     * @Inject("db")
      * @var Connection
      */
     protected $db;
@@ -43,7 +43,7 @@ abstract class Controller
      *
      * @param $data
      */
-    public function jsonResponse($data)
+    public function json($data)
     {
         header('Content-Type:application/json', true);
         echo json_encode($data);

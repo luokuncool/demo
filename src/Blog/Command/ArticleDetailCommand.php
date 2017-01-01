@@ -1,8 +1,8 @@
 <?php
 
-namespace SuperBlog\Command;
+namespace Blog\Command;
 
-use SuperBlog\Model\ArticleRepository;
+use Blog\Model\ArticleRepository;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ArticleDetailCommand

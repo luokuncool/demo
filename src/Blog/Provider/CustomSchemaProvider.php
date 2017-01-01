@@ -1,5 +1,5 @@
 <?php
-namespace SuperBlog\Provider;
+namespace Blog\Provider;
 
 use Doctrine\DBAL\Migrations\Provider\SchemaProviderInterface;
 use Doctrine\DBAL\Schema\Schema;

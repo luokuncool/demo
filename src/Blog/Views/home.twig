@@ -15,7 +15,7 @@
 
                 <span class="title">{{ article.title }}</span>
 
-                <p>{{ article.content }}</p>
+                <p>{{ article.content|raw }}</p>
 
                 <p><a href="/article/{{ article.id }}">Read more</a></p>
 

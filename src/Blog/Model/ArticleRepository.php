@@ -1,6 +1,6 @@
 <?php
 
-namespace SuperBlog\Model;
+namespace Blog\Model;
 
 /**
  * This is an interface so that the model is coupled to a specific backend.

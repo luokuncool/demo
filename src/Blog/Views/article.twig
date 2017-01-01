@@ -7,7 +7,7 @@
 
     <p>创建时间: {{ article.create_at }} &nbsp;&nbsp;最后更新：{{ article.update_at }}</p>
 
-    <blockquote class="flow-text">{{ article.content }}</blockquote>
+    <blockquote class="flow-text">{{ article.content|raw }}</blockquote>
 
     <p><a href="/" class="btn">Back to the home page</a></p>
 

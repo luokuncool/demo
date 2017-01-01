@@ -1,6 +1,6 @@
 <?php
 
-namespace SuperBlog\Model;
+namespace Blog\Model;
 
 class Article
 {

@@ -3,7 +3,7 @@
 /composer.lock
 /.idea/
 /app/db.sqlite3
-/src/SuperBlog/Migrations/*
-!/src/SuperBlog/Migrations/.gitkeep
+/src/Blog/Migrations/*
+!/src/Blog/Migrations/.gitkeep
 /var/log/*
 !/var/log/.gitkeep

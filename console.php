@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use SuperBlog\Model\ArticleRepository;
+use Blog\Model\ArticleRepository;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /** @var \DI\Container $container */
@@ -23,8 +23,8 @@ $app->command('articles', function (OutputInterface $output, ArticleRepository $
     foreach ($articles as $article) {
         $output->writeln(sprintf(
             'Article #%d: <info>%s</info>',
-            $article->getId(),
-            $article->getTitle()
+            $article['id'],
+            $article['title']
         ));
     }
 });
@@ -32,17 +32,17 @@ $app->command('articles', function (OutputInterface $output, ArticleRepository $
 // Show an article
 // For this command we provide an invokable class instead of a closure
 // That allows to use dependency injection in the constructor
-$app->add($container->get(SuperBlog\Command\CreateArticleCommand::class));
+$app->add($container->get(Blog\Command\CreateArticleCommand::class));
 
 $app->setHelperSet(
     new \Symfony\Component\Console\Helper\HelperSet([
-        'db'     => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($container->get(\Doctrine\DBAL\Connection::class)),
+        'db'     => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($container->get("db")),
         'dialog' => new \Symfony\Component\Console\Helper\QuestionHelper(),
     ])
 );
 
 $app->addCommands([
-    new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(new \SuperBlog\Provider\CustomSchemaProvider()),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(new \Blog\Provider\CustomSchemaProvider()),
     new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
     new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
     new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
