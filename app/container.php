@@ -1,7 +1,6 @@
 <?php
 
 use function DI\object;
-use Doctrine\DBAL\Logging\DebugStack;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Blog\Model\ArticleRepository;
@@ -16,9 +15,6 @@ return [
         return new Twig_Environment($loader);
     },
 
-    'db.url' => 'sqlite:///' . __DIR__ . '/db.sqlite3',
-    //'db.url' => 'mysql://root:root@127.0.0.1/di-demo?charset=utf8',
-
     'predis' => function (\DI\Container $container) {
         $predis = new \Predis\Client();
         return $predis;
@@ -30,17 +26,22 @@ return [
         return $logger;
     },
 
+    'db.url' => 'sqlite:///' . __DIR__ . '/db.sqlite3',
+    //'db.url' => 'mysql://root:root@127.0.0.1/di-demo?charset=utf8',
+
     'db' => function (\DI\Container $container) {
         $config           = new \Doctrine\DBAL\Configuration();
         $connectionParams = ['url' => $container->get('db.url')];
 
-        $sqlLogger = new DebugStack();
+        $sqlLogger = $container->get('db.sql.logger');
         $config->setSQLLogger($sqlLogger);
 
         //$cache = new \Doctrine\Common\Cache\PredisCache($container->get('predis'));
-        $cache = new \Doctrine\Common\Cache\FilesystemCache(__DIR__.'/../var/cache/');
+        $cache = new \Doctrine\Common\Cache\FilesystemCache(__DIR__ . '/../var/cache/');
         $config->setResultCacheImpl($cache);
 
         return \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
-    }
+    },
+
+    'db.sql.logger' => object(\Doctrine\DBAL\Logging\DebugStack::class),
 ];
