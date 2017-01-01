@@ -4,6 +4,7 @@ namespace SuperBlog\Controller;
 
 use DI\Annotation\Inject;
 use InvalidArgumentException;
+use Predis\Client;
 use SuperBlog\Model\ArticleRepository;
 
 class ArticleController extends Controller
@@ -14,6 +15,12 @@ class ArticleController extends Controller
      */
     private $repository;
 
+    /**
+     * @Inject()
+     * @var Client
+     */
+    private $predis;
+
     public function post()
     {
         $this->db->insert('article', $_POST);
@@ -22,7 +29,7 @@ class ArticleController extends Controller
 
     public function update($id)
     {
-        $affect = $this->db->update('article', $_POST, array('id' => $id));
+        $affect = $this->db->update('article', array_merge($_POST, array('update_at' => (new \DateTime())->format('Y-m-d H:i:s'))), array('id' => $id));
         $this->jsonResponse(array('affect' => $affect));
     }
 
@@ -44,7 +51,14 @@ class ArticleController extends Controller
 
     public function get($id)
     {
+        $key = "article$id";
+
+        if ($article = $this->predis->get($key)) {
+            $this->jsonResponse(unserialize($article));
+            return;
+        }
         $article = $this->repository->getArticle($id);
+        $this->predis->set($key, serialize($article));
         $this->jsonResponse($article);
     }
 
