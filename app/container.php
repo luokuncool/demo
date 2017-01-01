@@ -12,7 +12,7 @@ return [
     // Configure Twig
     'twig'                   => function () {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../src/Blog/Views');
-        return new Twig_Environment($loader);
+        return new Twig_Environment($loader, array('cache' => __DIR__ . '/../var/cache/twig'));
     },
 
     'predis' => function (\DI\Container $container) {
@@ -37,7 +37,7 @@ return [
         $config->setSQLLogger($sqlLogger);
 
         //$cache = new \Doctrine\Common\Cache\PredisCache($container->get('predis'));
-        $cache = new \Doctrine\Common\Cache\FilesystemCache(__DIR__ . '/../var/cache/');
+        $cache = new \Doctrine\Common\Cache\FilesystemCache(__DIR__ . '/../var/cache/doctrine/');
         $config->setResultCacheImpl($cache);
 
         return \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
