@@ -23,7 +23,7 @@ class HomeController extends Controller
     {
         $qb = $this->db->createQueryBuilder()->select('*')->from('article')->setMaxResults(1);
 
-        $stmt = $this->db->executeQuery($qb->getSQL(), array(), array(), new QueryCacheProfile(3, 'query'));
+        $stmt = $this->db->executeQuery($qb->getSQL(), array(), array(), new QueryCacheProfile(30, $qb->getSQL()));
         $rows = $stmt->fetchAll();
         $stmt->closeCursor();
 

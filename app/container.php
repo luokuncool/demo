@@ -1,6 +1,10 @@
 <?php
 
+use Blog\Container;
 use function DI\object;
+use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Blog\Model\ArticleRepository;
@@ -12,10 +16,10 @@ return [
     // Configure Twig
     'twig'                   => function () {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../src/Blog/Views');
-        return new Twig_Environment($loader, array('cache' => __DIR__ . '/../var/cache/twig'));
+        return new Twig_Environment($loader, ['cache' => __DIR__ . '/../var/cache/twig']);
     },
 
-    'predis' => function (\DI\Container $container) {
+    'predis' => function (Container $container) {
         $predis = new \Predis\Client();
         return $predis;
     },
@@ -29,18 +33,18 @@ return [
     'db.url' => 'sqlite:///' . __DIR__ . '/db.sqlite3',
     //'db.url' => 'mysql://root:root@127.0.0.1/di-demo?charset=utf8',
 
-    'db' => function (\DI\Container $container) {
-        $config           = new \Doctrine\DBAL\Configuration();
-        $connectionParams = ['url' => $container->get('db.url')];
+    'db' => function (Container $container) {
+        $config           = new Configuration();
+        $connectionParams = ['url' => $container['db.url']];
 
-        $sqlLogger = $container->get('db.sql.logger');
+        $sqlLogger = $container['db.sql.logger'];
         $config->setSQLLogger($sqlLogger);
 
-        //$cache = new \Doctrine\Common\Cache\PredisCache($container->get('predis'));
-        $cache = new \Doctrine\Common\Cache\FilesystemCache(__DIR__ . '/../var/cache/doctrine/');
+        //$cache = new \Doctrine\Common\Cache\PredisCache($container['predis']);
+        $cache = new FilesystemCache(__DIR__ . '/../var/cache/doctrine/');
         $config->setResultCacheImpl($cache);
 
-        return \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        return DriverManager::getConnection($connectionParams, $config);
     },
 
     'db.sql.logger' => object(\Doctrine\DBAL\Logging\DebugStack::class),

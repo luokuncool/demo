@@ -8,7 +8,7 @@ use Symfony\Component\Debug\ErrorHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$containerBuilder = new ContainerBuilder;
+$containerBuilder = new ContainerBuilder(\Blog\Container::class);
 $containerBuilder->useAnnotations(true);
 $containerBuilder->addDefinitions(__DIR__ . '/container.php');
 $container = $containerBuilder->build();
