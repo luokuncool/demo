@@ -6,13 +6,13 @@ $container = require __DIR__ . '/../bootstrap.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', 'Blog\Controller\HomeController');
-    $r->addRoute('GET', '/article/{id}', ['Blog\Controller\ArticleController', 'show']);
+    $r->addRoute('GET', '/article/{id:[0-9]+}', ['Blog\Controller\ArticleController', 'show']);
 
     $r->addRoute('GET', '/article', ['Blog\Controller\ArticleController', 'all']);
-    $r->addRoute('GET', '/article/get/{id}', ['Blog\Controller\ArticleController', 'get']);
+    $r->addRoute('GET', '/article/get/{id:[0-9]+}', ['Blog\Controller\ArticleController', 'get']);
     $r->addRoute('POST', '/article/post', ['Blog\Controller\ArticleController', 'post']);
-    $r->addRoute('POST', '/article/update/{id}', ['Blog\Controller\ArticleController', 'update']);
-    $r->addRoute('DELETE', '/article/delete/{id}', ['Blog\Controller\ArticleController', 'delete']);
+    $r->addRoute('POST', '/article/update/{id:[0-9]+}', ['Blog\Controller\ArticleController', 'update']);
+    $r->addRoute('DELETE', '/article/delete/{id:[0-9]+}', ['Blog\Controller\ArticleController', 'delete']);
 });
 
 $route = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], explode('?', $_SERVER['REQUEST_URI'])[0]);
