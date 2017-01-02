@@ -1,6 +1,6 @@
 <?php
 
-use Blog\Container;
+use DI\Container;
 use function DI\object;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\DBAL\Configuration;

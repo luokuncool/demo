@@ -15,7 +15,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('DELETE', '/article/delete/{id}', ['Blog\Controller\ArticleController', 'delete']);
 });
 
-$route = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+$route = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], explode('?', $_SERVER['REQUEST_URI'])[0]);
 
 switch ($route[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
