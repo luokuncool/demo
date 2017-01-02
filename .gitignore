@@ -2,7 +2,7 @@
 /composer.phar
 /composer.lock
 /.idea/
-/app/db.sqlite3
+/config/db.sqlite3
 /src/Blog/Migrations/*
 !/src/Blog/Migrations/.gitkeep
 /var/log/*

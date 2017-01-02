@@ -5,7 +5,7 @@ use Blog\Model\ArticleRepository;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /** @var \DI\Container $container */
-$container = require __DIR__ . '/app/bootstrap.php';
+$container = require __DIR__ . '/../bootstrap.php';
 
 $app = new Silly\Application();
 
