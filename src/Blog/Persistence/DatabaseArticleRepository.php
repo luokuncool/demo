@@ -2,13 +2,13 @@
 namespace Blog\Persistence;
 
 use DI\Annotation\Inject;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
 use Blog\Model\Article;
 use Blog\Model\ArticleRepository;
 
 class DatabaseArticleRepository implements ArticleRepository
 {
-
     /**
      * @Inject("db")
      * @var Connection
@@ -20,7 +20,11 @@ class DatabaseArticleRepository implements ArticleRepository
      */
     public function getArticles()
     {
-        return $this->db->createQueryBuilder()->select('*')->from('article')->orderBy('id', 'desc')->execute()->fetchAll();
+        $qb   = $this->db->createQueryBuilder()->select('*')->from('article')->orderBy('id', 'desc');
+        $stmt = $this->db->executeQuery($qb->getSQL(), [], [], new QueryCacheProfile(10, $qb->getSQL()));
+        $rows = $stmt->fetchAll();
+        $stmt->closeCursor();
+        return $rows;
     }
 
     /**
