@@ -36,7 +36,7 @@ $app->add($container->get(Blog\Command\CreateArticleCommand::class));
 
 $app->setHelperSet(
     new \Symfony\Component\Console\Helper\HelperSet([
-        'db'     => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($container->get("db")),
+        'db'     => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($container['db']),
         'dialog' => new \Symfony\Component\Console\Helper\QuestionHelper(),
     ])
 );
