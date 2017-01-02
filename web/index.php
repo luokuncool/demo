@@ -16,7 +16,6 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
 });
 
 $route = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], explode('?', $_SERVER['REQUEST_URI'])[0]);
-
 switch ($route[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         echo '404 Not Found';
@@ -36,7 +35,7 @@ switch ($route[0]) {
         /** @var \Monolog\Logger $logger */
         $logger = $container->get('logger');
         foreach ($container['db.sql.logger']->queries as $query) {
-            $logger->addDebug(json_encode($query, JSON_UNESCAPED_UNICODE));
+            $logger->addDebug(json_encode($route, JSON_UNESCAPED_UNICODE), $query);
         }
         break;
 }
