@@ -7,7 +7,7 @@ use Twig_Error_Loader;
 use Twig_Error_Runtime;
 use Twig_Error_Syntax;
 
-abstract class Controller
+abstract class BaseController
 {
     /**
      * @Inject("twig")

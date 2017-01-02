@@ -5,7 +5,7 @@ namespace Blog\Controller;
 use DI\Annotation\Inject;
 use InvalidArgumentException;
 
-class ArticleController extends Controller
+class ArticleBaseController extends BaseController
 {
     /**
      * @Inject()
