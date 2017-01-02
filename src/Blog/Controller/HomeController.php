@@ -6,7 +6,7 @@ use DI\Annotation\Inject;
 use Blog\Model\ArticleRepository;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 
-class HomeBaseController extends BaseController
+class HomeController extends BaseController
 {
     /**
      * @Inject()
