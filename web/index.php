@@ -33,6 +33,10 @@ switch ($route[0]) {
         // We could do $container->get($controller) but $container->call()
         // does that automatically
         $container->call($controller, $parameters);
-        dump($container->get('db.sql.logger')->queries);
+        /** @var \Monolog\Logger $logger */
+        $logger = $container->get('logger');
+        foreach ($container['db.sql.logger']->queries as $query) {
+            $logger->addDebug(json_encode($query, JSON_UNESCAPED_UNICODE));
+        }
         break;
 }

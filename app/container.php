@@ -26,7 +26,7 @@ return [
 
     'logger' => function () {
         $logger = new \Monolog\Logger('app');
-        $logger->pushHandler(new StreamHandler(__DIR__ . '/../var/log/' . date('Y-m-d') . '.log', Logger::WARNING));
+        $logger->pushHandler(new StreamHandler(__DIR__ . '/../var/log/' . date('Y-m-d') . '.log', Logger::DEBUG));
         return $logger;
     },
 
