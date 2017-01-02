@@ -13,6 +13,7 @@ Debug::enable();
 
 $builder = new ContainerBuilder(\Blog\Container::class);
 $builder->useAnnotations(true);
+$builder->addDefinitions(__DIR__ . '/config/parameters.php');
 $builder->addDefinitions(__DIR__ . '/config/container.php');
 $container = $builder->build();
 
