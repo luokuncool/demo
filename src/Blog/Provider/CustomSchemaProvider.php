@@ -16,6 +16,7 @@ class CustomSchemaProvider implements SchemaProviderInterface
         $schema = new Schema();
         $this->createArticleTable($schema);
         $this->createUserTable($schema);
+        $this->createGoodsTable($schema);
         return $schema;
     }
 
@@ -37,6 +38,18 @@ class CustomSchemaProvider implements SchemaProviderInterface
         $table->addColumn('title', 'string', array('length' => 255, 'comment' => '标题'));
         $table->addColumn('tags', 'string', array('length' => 1024, 'comment' => '标签'));
         $table->addColumn('content', 'text', array('comment' => '内容'));
+        $table->addColumn('create_at', 'datetime', array('comment' => '创建时间', 'default' => 0));
+        $table->addColumn('update_at', 'datetime', array('comment' => '更新时间', 'default' => 0));
+        $table->setPrimaryKey(array('id'));
+    }
+
+    private function createGoodsTable(Schema $schema)
+    {
+        $table = $schema->createTable('goods');
+        $table->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
+        $table->addColumn('title', 'string', array('length' => 255, 'comment' => '商品标题'));
+        $table->addColumn('stock', 'integer', array('unsigned' => true, 'comment' => '库存'));
+        $table->addColumn('content', 'text', array('comment' => '商品详情'));
         $table->addColumn('create_at', 'datetime', array('comment' => '创建时间', 'default' => 0));
         $table->addColumn('update_at', 'datetime', array('comment' => '更新时间', 'default' => 0));
         $table->setPrimaryKey(array('id'));

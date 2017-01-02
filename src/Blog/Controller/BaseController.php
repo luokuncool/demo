@@ -22,6 +22,12 @@ abstract class BaseController
     protected $db;
 
     /**
+     * @Inject("predis")
+     * @var \Predis\Client
+     */
+    protected $predis;
+
+    /**
      * Renders a template.
      *
      * @param string $name    The template name

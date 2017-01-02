@@ -13,6 +13,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/article/post', ['Blog\Controller\ArticleController', 'post']);
     $r->addRoute('POST', '/article/update/{id:[0-9]+}', ['Blog\Controller\ArticleController', 'update']);
     $r->addRoute('DELETE', '/article/delete/{id:[0-9]+}', ['Blog\Controller\ArticleController', 'delete']);
+
+    $r->addRoute('GET', '/panic_buying/{id:[0-9]+}', 'Blog\Controller\PanicBuyingController');
 });
 
 $route = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], explode('?', $_SERVER['REQUEST_URI'])[0]);
@@ -35,7 +37,7 @@ switch ($route[0]) {
         /** @var \Monolog\Logger $logger */
         $logger = $container->get('logger');
         foreach ($container['db.sql.logger']->queries as $query) {
-            $logger->addDebug(json_encode($route, JSON_UNESCAPED_UNICODE), $query);
+            //$logger->addDebug(json_encode($route, JSON_UNESCAPED_UNICODE), $query);
         }
         break;
 }
