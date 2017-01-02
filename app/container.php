@@ -19,14 +19,12 @@ return [
         return new Twig_Environment($loader, ['cache' => __DIR__ . '/../var/cache/twig']);
     },
 
-    'predis' => function (Container $container) {
-        $predis = new \Predis\Client();
-        return $predis;
-    },
+    'predis' => object(\Predis\Client::class),
 
-    'logger' => function () {
+    'logger' => function (Container $container) {
         $logger = new \Monolog\Logger('app');
         $logger->pushHandler(new StreamHandler(__DIR__ . '/../var/log/' . date('Y-m-d') . '.log', Logger::DEBUG));
+        //$logger->pushHandler(new \Monolog\Handler\RedisHandler($container['predis'], 'logger'));
         return $logger;
     },
 
