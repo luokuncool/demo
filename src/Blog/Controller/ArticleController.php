@@ -13,12 +13,6 @@ class ArticleController extends BaseController
      */
     private $repository;
 
-    /**
-     * @Inject("predis")
-     * @var \Predis\Client
-     */
-    private $predis;
-
     public function post()
     {
         $this->db->insert('article', $_POST);
