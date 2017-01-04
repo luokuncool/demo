@@ -21,7 +21,7 @@ class HomeController extends BaseController
      */
     public function __invoke()
     {
-        echo $this->render('home.twig', [
+        return $this->render('home.twig', [
             'articles' => $this->repository->getArticles(),
         ]);
     }

@@ -4,6 +4,8 @@ namespace Blog\Controller;
 
 use DI\Annotation\Inject;
 use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class ArticleController extends BaseController
 {
@@ -16,28 +18,27 @@ class ArticleController extends BaseController
     public function post()
     {
         $this->db->insert('article', $_POST);
-        $this->json(array('lastInsId' => $this->db->lastInsertId()));
+        return new JsonResponse(['lastInsId' => $this->db->lastInsertId()]);
     }
 
     public function update($id)
     {
         $affect = $this->db->update('article', array_merge($_POST, array('update_at' => (new \DateTime())->format('Y-m-d H:i:s'))), array('id' => $id));
-        $this->json(array('affect' => $affect));
+        return new JsonResponse(['affect' => $affect]);
     }
 
     public function all()
     {
-        $this->json($this->repository->getArticles());
+        return new JsonResponse($this->repository->getArticles());
     }
 
     public function delete($id)
     {
         try {
             $this->db->delete('article', array('id' => $id));
-            $this->json(array('msg' => '删除成功'));
-            return;
+            return new JsonResponse(['msg' => '删除成功']);
         } catch (InvalidArgumentException $e) {
-            $this->json(array('msg' => $e->getMessage()));
+            return new JsonResponse(['msg' => $e->getMessage()]);
         }
     }
 
@@ -51,7 +52,7 @@ class ArticleController extends BaseController
     {
         $article = $this->repository->getArticle($id);
 
-        echo $this->render('article.twig', [
+        return $this->render('article.twig', [
             'article' => $article,
         ]);
     }

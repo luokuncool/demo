@@ -3,6 +3,7 @@ namespace Blog\Controller;
 
 use DI\Annotation\Inject;
 use Monolog\Logger;
+use Symfony\Component\HttpFoundation\Response;
 
 class PanicBuyingController extends BaseController
 {
@@ -21,10 +22,10 @@ class PanicBuyingController extends BaseController
         $this->logger->addError($stock);
         $this->db->beginTransaction();
         if ($stock <= 0) {
-            echo 'sold out！';
-            return;
+            return new Response('sold out！');
         }
         $this->db->executeUpdate('UPDATE goods SET stock = stock - 1 WHERE id = ?', array($id));
         $this->db->commit();
+        return new Response('buy success!');
     }
 }

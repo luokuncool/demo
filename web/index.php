@@ -1,7 +1,9 @@
 <?php
 
 use FastRoute\RouteCollector;
+use Symfony\Component\HttpFoundation\Request;
 
+/** @var DI\Container $container */
 $container = require __DIR__ . '/../bootstrap.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
@@ -31,9 +33,15 @@ switch ($route[0]) {
         $controller = $route[1];
         $parameters = $route[2];
 
+        $parameters['request'] = Request::createFromGlobals();
         // We could do $container->get($controller) but $container->call()
         // does that automatically
-        $container->call($controller, $parameters);
+        /** @var \Symfony\Component\HttpFoundation\Response $response */
+        $response = $container->call($controller, $parameters);
+        if (!($response instanceof \Symfony\Component\HttpFoundation\Response)) {
+            throw new ErrorException($controller . ' must return an instanceof \Symfony\Component\HttpFoundation\Response');
+        }
+        $response->send();
         /** @var \Monolog\Logger $logger */
         $logger = $container->get('logger');
         foreach ($container['db.sql.logger']->queries as $query) {
