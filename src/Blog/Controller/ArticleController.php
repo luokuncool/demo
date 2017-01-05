@@ -6,6 +6,7 @@ use DI\Annotation\Inject;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends BaseController
 {
@@ -48,12 +49,14 @@ class ArticleController extends BaseController
         $this->json($article);
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $article = $this->repository->getArticle($id);
+        $data['article'] = $this->repository->getArticle($id);
 
-        return $this->render('article.twig', [
-            'article' => $article,
-        ]);
+        return $this->render(
+            'article.twig',
+            $data,
+            $request->headers->get('X-PJAX')
+        );
     }
 }

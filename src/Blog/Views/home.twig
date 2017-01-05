@@ -17,7 +17,7 @@
 
                 <p>{{ article.content|raw }}</p>
 
-                <p><a href="/article/{{ article.id }}">Read more</a></p>
+                <p><a data-pjax="1" href="/article/{{ article.id }}">Read more</a></p>
 
             </li>
         {% endfor %}

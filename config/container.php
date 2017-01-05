@@ -16,7 +16,8 @@ return [
     // Configure Twig
     'twig'                   => function () {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../src/Blog/Views');
-        return new Twig_Environment($loader, ['cache' => __DIR__ . '/../var/cache/twig']);
+        //return new Twig_Environment($loader, ['cache' => __DIR__ . '/../var/cache/twig']);
+        return new Twig_Environment($loader);
     },
 
     'predis' => object(\Predis\Client::class),

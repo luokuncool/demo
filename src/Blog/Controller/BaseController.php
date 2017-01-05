@@ -34,14 +34,18 @@ abstract class BaseController
      * @param string $name    The template name
      * @param array  $context An array of parameters to pass to the template
      *
-     * @return string The rendered template
+     * @param bool   $pjax
      *
-     * @throws Twig_Error_Loader  When the template cannot be found
-     * @throws Twig_Error_Syntax  When an error occurred during compilation
-     * @throws Twig_Error_Runtime When an error occurred during rendering
+     * @return Response The rendered template
+     *
      */
-    public function render($name, array $context = array())
+    public function render($name, array $context = array(), $pjax = false)
     {
+        if ($pjax) {
+            $template = $this->twig->load($name);
+            return new Response($template->renderBlock('content', $context));
+        }
+
         return Response::create($this->twig->render($name, $context));
     }
 }
