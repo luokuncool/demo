@@ -48,7 +48,7 @@ abstract class BaseController
         $template = $this->twig->load($name);
         foreach ($template->getBlockNames($context) as $blockName) {
             $block = $template->renderBlock($blockName, $context);
-            $content .= $blockName == 'title' ? "<title>$block</title>" : $block;
+            $content .= ($blockName == 'title' ? "<title>$block</title>" : $block).PHP_EOL;
         }
         return new Response($content);
     }
