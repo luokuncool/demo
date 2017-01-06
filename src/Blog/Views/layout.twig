@@ -5,13 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
 <link rel="stylesheet" href="/css/nprogress.css">
+<title>{% block title %}{{ title|raw|default('wellcome to my blog') }}{% endblock %}</title>
 </head>
 <body>
-
-<div class="container" id="pjax-container">
-    {% block content %}
-    {% endblock %}
-</div>
+{% block content %}{% endblock %}
 <script src="//cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
 <script src="//cdn.bootcss.com/jquery.pjax/1.9.6/jquery.pjax.js"></script>
 <script type="text/javascript" src="/js/nprogress.js"></script>
@@ -22,7 +19,7 @@ $(document).on('pjax:start', function () {
 $(document).on('pjax:end', function () {
     NProgress.done();
 });
-$(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container')
+$(document).pjax('[data-pjax] a, a[data-pjax]', 'body')
 </script>
 {% block js %}
 {% endblock %}

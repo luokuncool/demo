@@ -14,10 +14,15 @@ return [
     ArticleRepository::class => object(\Blog\Persistence\DatabaseArticleRepository::class),
 
     // Configure Twig
-    'twig'                   => function () {
+    'twig'                   => function (Container $container) {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../src/Blog/Views');
-        //return new Twig_Environment($loader, ['cache' => __DIR__ . '/../var/cache/twig']);
-        return new Twig_Environment($loader);
+        return new Twig_Environment(
+            $loader,
+            [
+                'debug' => $container['app.debug'],
+                'cache' => __DIR__ . '/../var/cache/twig'
+            ]
+        );
     },
 
     'predis' => object(\Predis\Client::class),
