@@ -41,15 +41,16 @@ abstract class BaseController
      */
     public function render($name, array $context = array(), $pjax = false)
     {
+        $response = new Response();
         if (!$pjax) {
-            return Response::create($this->twig->render($name, $context));
+            return $response->setContent($this->twig->render($name, $context));
         }
-        $content  = '';
+
         $template = $this->twig->load($name);
         foreach ($template->getBlockNames($context) as $blockName) {
             $block = $template->renderBlock($blockName, $context);
-            $content .= ($blockName == 'title' ? "<title>$block</title>" : $block).PHP_EOL;
+            $response->setContent($response->getContent() . ($blockName == 'title' ? "<title>$block</title>" : $block) . PHP_EOL);
         }
-        return new Response($content);
+        return $response;
     }
 }

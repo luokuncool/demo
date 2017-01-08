@@ -27,10 +27,6 @@ class HomeController extends BaseController
     public function __invoke(Request $request)
     {
         $data['articles'] = $this->repository->getArticles();
-        return $this->render(
-            'home.twig',
-            $data,
-            $request->headers->get('X-PJAX')
-        );
+        return $this->render('home.twig', $data, $request->headers->get('X-PJAX'));
     }
 }

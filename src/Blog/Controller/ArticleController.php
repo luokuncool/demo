@@ -46,17 +46,12 @@ class ArticleController extends BaseController
     public function get($id)
     {
         $article = $this->repository->getArticle($id);
-        $this->json($article);
+        return new JsonResponse($article);
     }
 
     public function show($id, Request $request)
     {
         $data['article'] = $this->repository->getArticle($id);
-
-        return $this->render(
-            'article.twig',
-            $data,
-            $request->headers->get('X-PJAX')
-        );
+        return $this->render('article.twig', $data, $request->headers->get('X-PJAX'));
     }
 }

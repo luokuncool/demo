@@ -13,13 +13,9 @@
 <script src="//cdn.bootcss.com/jquery.pjax/1.9.6/jquery.pjax.js"></script>
 <script type="text/javascript" src="/js/nprogress.js"></script>
 <script type="text/javascript">
-$(document).on('pjax:start', function () {
-    NProgress.start();
-});
-$(document).on('pjax:end', function () {
-    NProgress.done();
-});
-$(document).pjax('[data-pjax] a, a[data-pjax]', 'body')
+$(document).on('pjax:start', NProgress.start);
+$(document).on('pjax:end', NProgress.done);
+$(document).pjax('a[data-pjax]', 'body');
 </script>
 {% block js %}{% endblock %}
 </body>
