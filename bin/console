@@ -33,6 +33,7 @@ $app->command('articles', function (OutputInterface $output, ArticleRepository $
 // For this command we provide an invokable class instead of a closure
 // That allows to use dependency injection in the constructor
 $app->add($container->get(Blog\Command\CreateArticleCommand::class));
+$app->add($container->get(Blog\Command\CreateClientCommand::class));
 
 $app->setHelperSet(
     new \Symfony\Component\Console\Helper\HelperSet([

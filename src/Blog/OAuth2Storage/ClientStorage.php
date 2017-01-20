@@ -1,10 +1,18 @@
 <?php
 namespace Blog\OAuth2Storage;
 
+use DI\Annotation\Inject;
+use Doctrine\DBAL\Connection;
 use OAuth2\Storage\ClientCredentialsInterface;
 
 class ClientStorage implements ClientCredentialsInterface
 {
+
+    /**
+     * @Inject("db")
+     * @var Connection $db
+     */
+    private $db;
 
     /**
      * Make sure that the client credentials is valid.
@@ -108,6 +116,7 @@ class ClientStorage implements ClientCredentialsInterface
      */
     public function checkRestrictedGrantType($client_id, $grant_type)
     {
-        // TODO: Implement checkRestrictedGrantType() method.
+        $client = $this->db->createQueryBuilder()->select('id')->from('oauth_clients')->where('client_identifier=?')->setParameters(array($client_id))->execute()->fetch();
+        return (bool)$client;
     }
 }
