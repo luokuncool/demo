@@ -10,7 +10,7 @@ $container = require __DIR__ . '/../bootstrap.php';
 $app = new Silly\Application();
 
 // Silly will use PHP-DI for dependency injection based on type-hints
-$app->useContainer($container, $injectWithTypeHint = true);
+$app->useContainer($container, true);
 
 // Show the article list
 // This command is implemented using a closure. We can still benefit from dependency
@@ -34,6 +34,7 @@ $app->command('articles', function (OutputInterface $output, ArticleRepository $
 // That allows to use dependency injection in the constructor
 $app->add($container->get(Blog\Command\CreateArticleCommand::class));
 $app->add($container->get(Blog\Command\CreateClientCommand::class));
+$app->add($container->get(Blog\Command\GenerateMetaCommand::class));
 
 $app->setHelperSet(
     new \Symfony\Component\Console\Helper\HelperSet([

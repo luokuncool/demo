@@ -51,4 +51,8 @@ return [
     'db.sql.logger' => object(\Doctrine\DBAL\Logging\DebugStack::class),
 
     'client_storage' => object(\Blog\OAuth2Storage\ClientStorage::class),
+
+    'container' => function (Container $container) {
+        return $container;
+    }
 ];

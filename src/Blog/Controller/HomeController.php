@@ -4,6 +4,7 @@ namespace Blog\Controller;
 
 use DI\Annotation\Inject;
 use Blog\Model\ArticleRepository;
+use DI\Container;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,6 +15,11 @@ class HomeController extends BaseController
      * @var ArticleRepository
      */
     private $repository;
+
+    /**
+     * @var Container
+     */
+    private $container;
 
     /**
      * Example of an invokable class, i.e. a class that has an __invoke() method.
