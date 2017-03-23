@@ -7,6 +7,7 @@ use Doctrine\DBAL\Connection;
 use Silly\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateMetaCommand extends Command
 {
@@ -19,8 +20,7 @@ class GenerateMetaCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var Container */
-        $container = $this->getApplication()->getContainer();
+        $container = app(Container::class);
         $keys      = array_keys(require $container['app.root'] . '/config/container.php');
 
         $string = [];
@@ -33,17 +33,24 @@ class GenerateMetaCommand extends Command
             }
         }
         $metas    = join(PHP_EOL, $string);
-        $metaFile = <<<EOL
+        $metaFile = "
 <?php
 namespace PHPSTORM_META {
-    override(\DI\Container::get(0),
+    override(
+        \\DI\\Container::get(0),
         map([
-            ""   => "@",
+            \"\"   => \"@\",
+$metas
+        ]));
+    override(
+        \\app(0),
+        map([
+            \"\"   => \"@\",
 $metas
         ]));
 }
-EOL;
-        file_put_contents($container['app.root'] . '/.phpstorm.meta.php/php-di.meta.php', $metaFile);
+";
+        app(Filesystem::class)->dumpFile("{$container['app.root']}/.phpstorm.meta.php/php-di.meta.php", $metaFile);
     }
 
 }
