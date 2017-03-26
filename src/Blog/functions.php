@@ -9,10 +9,6 @@ if (!function_exists('app')) {
      */
     function app($name)
     {
-        /**
-         * @var \DI\Container
-         */
-        global $container;
-        return $container->get($name);
+        return \Blog\Application::getContainer()->get($name);
     }
 }
